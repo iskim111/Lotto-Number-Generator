@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>&#47196;&#46608; &#48264;&#54840; &#49373;&#49457;&#44592;</title>
+  <style>
+    :root {
+      --bg: linear-gradient(135deg, #fff4d6, #ffd59e);
+      --card: rgba(255, 255, 255, 0.88);
+      --text: #27211a;
+      --accent: #ff7a00;
+      --accent-dark: #d85f00;
+      --shadow: 0 18px 40px rgba(125, 71, 15, 0.18);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .card {
+      width: min(100%, 480px);
+      padding: 32px 28px;
+      border-radius: 24px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+      text-align: center;
+      backdrop-filter: blur(8px);
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 2rem;
+    }
+
+    p {
+      margin: 0 0 24px;
+      line-height: 1.6;
+    }
+
+    .numbers {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      min-height: 72px;
+    }
+
+    .ball {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+      box-shadow: 0 8px 18px rgba(255, 122, 0, 0.25);
+    }
+
+    .ball-yellow {
+      background: linear-gradient(135deg, #f7c500, #ffd84d);
+      box-shadow: 0 8px 18px rgba(247, 197, 0, 0.32);
+    }
+
+    .ball-blue {
+      background: linear-gradient(135deg, #2a7de1, #63a8ff);
+      box-shadow: 0 8px 18px rgba(42, 125, 225, 0.28);
+    }
+
+    .ball-red {
+      background: linear-gradient(135deg, #e74b3c, #ff7b6f);
+      box-shadow: 0 8px 18px rgba(231, 75, 60, 0.28);
+    }
+
+    .ball-gray {
+      background: linear-gradient(135deg, #6c7480, #9ca4b0);
+      box-shadow: 0 8px 18px rgba(108, 116, 128, 0.28);
+    }
+
+    .ball-green {
+      background: linear-gradient(135deg, #1f9d55, #49c77c);
+      box-shadow: 0 8px 18px rgba(31, 157, 85, 0.28);
+    }
+
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 26px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 10px 24px rgba(216, 95, 0, 0.25);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .hint {
+      margin-top: 16px;
+      font-size: 0.95rem;
+      color: #5f4b37;
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>&#47196;&#46608; &#48264;&#54840; &#49373;&#49457;&#44592;</h1>
+    <p>&#48260;&#53948;&#51012; &#45572;&#47476;&#47732; 1&#48512;&#53552; 45 &#49324;&#51060;&#51032; &#48264;&#54840; 6&#44060;&#47484; &#51473;&#48373; &#50630;&#51060; &#49373;&#49457;&#54633;&#45768;&#45796;.</p>
+
+    <section class="numbers" id="numbers" aria-live="polite"></section>
+
+    <button type="button" id="generateBtn">&#48264;&#54840; &#49373;&#49457;&#54616;&#44592;</button>
+    <div class="hint">&#49373;&#49457;&#46108; &#48264;&#54840;&#45716; &#50724;&#47492;&#52264;&#49692;&#51004;&#47196; &#51221;&#47148;&#46121;&#45768;&#45796;.</div>
+  </main>
+
+  <script>
+    const numbersEl = document.getElementById("numbers");
+    const generateBtn = document.getElementById("generateBtn");
+
+    function createLottoNumbers() {
+      const picked = new Set();
+
+      while (picked.size < 6) {
+        picked.add(Math.floor(Math.random() * 45) + 1);
+      }
+
+      return [...picked].sort((a, b) => a - b);
+    }
+
+    function getBallColorClass(number) {
+      if (number <= 10) {
+        return "ball-yellow";
+      }
+
+      if (number <= 20) {
+        return "ball-blue";
+      }
+
+      if (number <= 30) {
+        return "ball-red";
+      }
+
+      if (number <= 40) {
+        return "ball-gray";
+      }
+
+      return "ball-green";
+    }
+
+    function renderNumbers() {
+      const numbers = createLottoNumbers();
+      numbersEl.innerHTML = "";
+
+      numbers.forEach((number) => {
+        const ball = document.createElement("div");
+        ball.className = `ball ${getBallColorClass(number)}`;
+        ball.textContent = number;
+        numbersEl.appendChild(ball);
+      });
+    }
+
+    generateBtn.addEventListener("click", renderNumbers);
+    renderNumbers();
+  </script>
+</body>
+</html>
